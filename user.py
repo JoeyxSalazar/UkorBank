@@ -38,6 +38,10 @@ class user:
             return -1
             
     def create_account(self, userID, type):
+        if type == 'CHCK':
+            type = 'checkings'
+        else:
+            type = 'savings'
         new_user = {
             'userID': userID,
             'type': type, 
@@ -48,6 +52,7 @@ class user:
         try:
             self.db.add_row_to_table('account', new_user)
             print("Successfully added account")
+            return new_user['account_num']
         except:
             print("Could not add account")
     
@@ -135,7 +140,7 @@ class user:
    
     def check_funds(self, account_num, val)->bool:
         current_balance = self.get_balance(account_num)  # retrieve the current balance of the account
-        if current_balance - val < 0:
+        if current_balance - float(val) < 0:
             return False #insufficient balance
         else:
             return True
@@ -148,7 +153,7 @@ class user:
             
         except:
             print("Could not retrieve statement")
-            return
+            return -1
     
     def getUsername(self, account_num):
         try:
