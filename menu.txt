@@ -1,16 +1,17 @@
 Welcome to Ukor Bank!
 
 MENU - Diplay this page     (ex. MENU)
-SIGN - Sign up today! Specify the type of account to open       (For Checking: SIGN:CHCK:username:password:name:email:phone_num)
+SIGN - Sign up today! Specify a type of account to open       (For Checking: SIGN:CHCK:username:password:name:email:phone_num)
                                                                 (For Savings:  SIGN:SAVI:username:password:name:email:phone_num)
 LGIN - Login                (ex. LGIN:username:password)
 LGOT - Logout               (ex. LGOT)
 
+ACCT - Request the account numbers for your open accounts. 
 OPEN - Open a savings or checking account (Limit 1/user)    (ex. OPEN:CHCK or OPEN:SAVI)
 CHCK - Commands will pull data from checkings account       (ex. CHCK)
 SAVI - Commands will pull data from checkings account       (ex. SAVI)
 BALC - Display current balance                              (ex. BALC)
-DEPO - Make a deposit to your account                       (ex. DEPO)
-WITH - Make a withdrawal from your account                  (ex. WITH)  
+DEPO - Make a deposit to your account                       (ex. DEPO:amount)
+WITH - Make a withdrawal from your account                  (ex. WITH:amount)  
 SEND - Send money to another person's account               (ex. SEND:PersonsUsername:Amount)
-STAT - Retrieve a statement of your balances                (ex. STAT)
+STAT - Retrieve a statement of your balances                (ex. STAT:0/7/30   choose one of the 3 for todays, the past week's, or the past month's)
