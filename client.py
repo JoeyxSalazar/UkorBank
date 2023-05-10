@@ -14,7 +14,7 @@ def listen_for_response(sock):
             data = mess.getData().decode('utf-8')
             #If response does not warrant data to be returned, or if an error occured
             if tipe == 'OKOK' or tipe == 'ERRO':
-                print(tipe)
+                #print(tipe)
                 print(data)
                 break
             #Return error if unknown reason for failure.
@@ -22,19 +22,21 @@ def listen_for_response(sock):
                 print('Unknown Error :/')
                 print(tipe + ':' + data)
                 break
-    print('Complete')
+    print()
+    print()
+    print()
 
 def ClientProtocol(sock):
     while True:
+        listen_for_response(sock)
         msg = DSMessage()
         line = input('Enter Command: ')
         msg.setType(line[:4])
-        d = line[4:]
+        d = line[5:]
         msg.setData(d.encode('utf-8'))
         #sends message to middleware
         comm = DSComm(sock)
         comm.sendMessage(msg)
-        listen_for_response(sock)
 
 if __name__ == '__main__':
     mainserv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
