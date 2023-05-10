@@ -17,13 +17,13 @@ def send_data(type, data, sock):
     comm.sendMessage(mess)
 #Create New User
 def createAccountProtocol(id, type):
-    db.create_account(id, type)
+    return db.create_account(id, type)
 
 def createUserProtocol(type, username, password, name, email, phone_num):
-    id = db.create_user("testest1", "password", "Joey Salazar", "home", "305")
+    id = db.create_user(username, password, name, email, phone_num)
     if id == -1:
         return -1
-    createAccountProtocol(id, type)
+    accountNum = createAccountProtocol(id, type)
     return 1
 
     
@@ -31,6 +31,9 @@ def createUserProtocol(type, username, password, name, email, phone_num):
 def loginProtocol(username, password):
     id = db.login(username, password)
     accounts = db.list_account(id)
+    if id == -1 or accounts == -1:
+        print("Error logging in")
+        return -1
     
     check = "NULL"
     savings = "NULL"
@@ -83,17 +86,20 @@ def decode_cmd(cmd, data, midsock):
             send_data('ERRO', 'Error Signing Up', midsock)
     elif cmd == 'OPEN':
         #user_id:type
-        createAccountProtocol(creds[0], creds[1])
-        send_data('OKOK', 'Account Created', midsock)
+        accountNum = createAccountProtocol(creds[0], creds[1])
+        send_data('OKOK', accountNum, midsock)
     elif cmd == 'STAT':
-        #unsure still
-        statementProtocol()
-        send_data('ERRO', 'No protocol in place for statements right now', midsock)
+        #data= accountnum:day
+        status = statementProtocol(creds[0], creds[1])
+        if status != -1:
+            send_data('OKOK', status, midsock)
+        else:
+            send_data('ERRO', 'Error retrieving statement', midsock)      
     elif cmd == 'BALC':
         #chck/savi_num
         amount = balanceProtocol(creds[0])
         if amount != -1:
-            send_data('OKOK', amount, midsock)
+            send_data('OKOK', str(amount), midsock)
         else:
             send_data('ERRO', 'Error retrieving balance', midsock)
     elif cmd == 'SEND':
